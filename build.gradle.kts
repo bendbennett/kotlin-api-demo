@@ -1,0 +1,112 @@
+import com.google.protobuf.gradle.id
+import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+val protobufVersion by extra("4.29.1")
+val grpcVersion by extra("1.68.2")
+val grpcKotlinVersion by extra("1.4.1")
+val springVersion by extra("3.4.0")
+
+plugins {
+    id("org.springframework.boot") version "3.4.0"
+    id("io.spring.dependency-management") version "1.1.6"
+    id("com.google.protobuf") version "0.9.4"
+    kotlin("jvm") version "2.1.0"
+    kotlin("plugin.spring") version "2.1.0"
+}
+
+group = "net.synaptology"
+version = "0.1.0"
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    gradlePluginPortal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-parent:$springVersion")
+    implementation("org.springframework.boot:spring-boot-maven-plugin:$springVersion")
+    implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    implementation("net.devh:grpc-spring-boot-starter:3.1.0.RELEASE")
+    implementation("com.google.protobuf:protobuf-java:$protobufVersion")
+    implementation("io.grpc:grpc-protobuf")
+    implementation("io.grpc:grpc-stub")
+    implementation("io.grpc:grpc-netty")
+    implementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
+    implementation("jakarta.annotation:jakarta.annotation-api:3.0.0")
+    implementation("io.github.oshai:kotlin-logging-jvm:7.0.3")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(module = "mockito-core")
+    }
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
+    testImplementation("io.grpc:grpc-testing:$grpcVersion")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    // In order to be able to run jupiter (junit-5) and junit-4 tests:
+    // https://www.baeldung.com/junit-5-gradle#enabling-support-for-old-versions
+    testCompileOnly("junit:junit:4.13.2")
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.11.3")
+}
+
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.addAll("-Xjsr305=strict")
+        jvmTarget.set(JvmTarget.JVM_21)
+    }
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+    testLogging {
+        exceptionFormat = TestExceptionFormat.FULL
+        events = setOf(
+            TestLogEvent.FAILED,
+            TestLogEvent.PASSED,
+            TestLogEvent.SKIPPED,
+            TestLogEvent.STARTED
+        )
+        showStandardStreams = true // Includes TestLogEvent.STANDARD_OUT and TestLogEvent.STANDARD_ERROR
+    }
+}
+
+configure<DependencyManagementExtension> {
+    imports {
+        mavenBom("io.grpc:grpc-bom:$grpcVersion")
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:${protobufVersion}"
+    }
+    plugins {
+        id("grpc") {
+            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+        }
+        id("grpckt") {
+            artifact = "io.grpc:protoc-gen-grpc-kotlin:${grpcKotlinVersion}:jdk8@jar"
+        }
+    }
+
+    generateProtoTasks {
+        ofSourceSet("main").forEach { generateProtoTask ->
+            generateProtoTask
+                .plugins {
+                    id("grpc")
+                    id("grpckt")
+                }
+        }
+    }
+}
