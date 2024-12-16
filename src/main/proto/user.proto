@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package net.synaptology.kotlin_api_demo;
+
+option java_multiple_files = true;
+option java_package = "net.synaptology.kotlin_api_demo.proto.user";
+option java_outer_classname = "UserProto";
+option java_generic_services = true;
+
+message UserCreateRequest {
+  string first_name = 1;
+  string last_name = 2;
+}
+
+message UserCreateResponse {
+  string id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string created_at = 4;
+}
+
+service UserService {
+  rpc Create(UserCreateRequest) returns (UserCreateResponse) {}
+}

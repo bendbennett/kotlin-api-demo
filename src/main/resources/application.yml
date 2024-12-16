@@ -1,5 +1,0 @@
-hello:
-  host: localhost:8082
-grpc:
-  server:
-    port: 8082

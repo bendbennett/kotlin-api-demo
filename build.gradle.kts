@@ -15,10 +15,12 @@ plugins {
     id("com.google.protobuf") version "0.9.4"
     kotlin("jvm") version "2.1.0"
     kotlin("plugin.spring") version "2.1.0"
+    kotlin("plugin.jpa") version "2.1.0"
+    kotlin("plugin.allopen") version "2.1.0"
 }
 
 group = "net.synaptology"
-version = "0.1.0"
+version = "0.2.0"
 
 java {
     toolchain {
@@ -45,6 +47,10 @@ dependencies {
     implementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
     implementation("jakarta.annotation:jakarta.annotation-api:3.0.0")
     implementation("io.github.oshai:kotlin-logging-jvm:7.0.3")
+    // Data persistence
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    runtimeOnly("com.h2database:h2")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "mockito-core")
@@ -58,6 +64,7 @@ dependencies {
     // https://www.baeldung.com/junit-5-gradle#enabling-support-for-old-versions
     testCompileOnly("junit:junit:4.13.2")
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.11.3")
+    testImplementation("com.ninja-squad:springmockk:4.0.2")
 }
 
 kotlin {
@@ -109,4 +116,25 @@ protobuf {
                 }
         }
     }
+}
+
+val byteBuddyAgent = configurations.create("byteBuddyAgent")
+
+dependencies {
+    testImplementation("net.bytebuddy:byte-buddy-agent:1.15.10")
+    byteBuddyAgent("net.bytebuddy:byte-buddy-agent:1.15.10") { isTransitive = false }
+}
+
+tasks {
+    test {
+        jvmArgs("-javaagent:${byteBuddyAgent.asPath}")
+    }
+}
+
+// Refer to Persistence with JPA:
+//   https://spring.io/guides/tutorials/spring-boot-kotlin#_persistence_with_jpa
+allOpen {
+    annotation("jakarta.persistence.Entity")
+    annotation("jakarta.persistence.Embeddable")
+    annotation("jakarta.persistence.MappedSuperclass")
 }

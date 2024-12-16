@@ -7,9 +7,10 @@ with [Spring Boot](https://spring.io/projects/spring-boot).
 
 ### Tags
 
-| Tag               | Implementation                                             | 
-|-------------------|------------------------------------------------------------|
-| [v0.1.0](#v0.1.0) | Basic HTTP and gRPC server exposing hello world endpoints. |
+| Tag               | Implementation                                                 | 
+|-------------------|----------------------------------------------------------------|
+| [v0.1.0](#v0.1.0) | Basic HTTP and gRPC server exposing hello world endpoints.     |
+| [v0.2.0](#v0.2.0) | Adds HTTP and gRPC endpoints to create users stored in-memory. |
 
 ### Set-up
 
@@ -20,8 +21,8 @@ installed.
 
 The [Gradle](https://gradle.org/) build tool can be used for building, running and testing the API.
 
-* `./gradlew bootRun` runs the application without first building an archive (refer
-  to [Running your Application with Gradle](https://docs.spring.io/spring-boot/gradle-plugin/running.html)).
+* `./gradlew bootRun` runs the application without first building an archive.
+  * Refer to [Running your Application with Gradle](https://docs.spring.io/spring-boot/gradle-plugin/running.html).
 * `./gradle build` executes the build. 
   * The generated .jar can then be run directly using `java -jar build/libs/kotlin_api_demo-<VERSION>.jar` 
 * `./gradle test` runs the tests.
@@ -34,6 +35,56 @@ supports both HTTP and [gRPC](https://support.insomnia.rest/article/188-grpc#ove
 
 Alternatively, requests can be issued using cURL and
 [gRPCurl](https://github.com/fullstorydev/grpcurl).
+
+## v0.2.0
+
+Adding HTTP and gRPC endpoints for user creation.
+
+Users are stored in-memory.
+
+### HTTP
+
+#### Request
+
+    curl -i --request POST \
+    --url http://localhost:8080/user \
+    --header 'Content-Type: application/json' \
+    --data '{
+        "first_name": "john",
+        "last_name": "smith"
+    }'
+
+##### Response
+
+    HTTP/1.1 201
+    Content-Type: application/json
+    Transfer-Encoding: chunked
+    Date: Mon, 23 Dec 2024 03:48:32 GMT
+
+    {
+        "first_name":"john",
+        "last_name":"smith",
+        "created_at":"2024-12-23T03:48:32.778473",
+        "id":"8cde7c6f-1b37-4666-bda5-c0f446237963"
+    }
+
+### gRPC
+
+#### Request
+
+    grpcurl \
+    -plaintext \
+    -d '{"first_name": "john", "last_name": "smith"}' \
+    localhost:8082 net.synaptology.kotlin_api_demo.UserService.Create
+
+#### Response
+
+    {
+        "id": "e3f2505c-dbf3-4b87-96e7-2b94cabec5fd",
+        "first_name": "john",
+        "last_name": "smith",
+        "created_at": "2024-12-23T03:53:18.288108"
+    }
 
 ## <a name="v0.1.0"></a>v0.1.0
 
