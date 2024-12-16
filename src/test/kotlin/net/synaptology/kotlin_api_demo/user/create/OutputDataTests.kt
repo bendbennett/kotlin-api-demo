@@ -1,0 +1,21 @@
+package net.synaptology.kotlin_api_demo.user.create
+
+import java.time.LocalDateTime
+import java.util.UUID
+import org.junit.jupiter.api.Test
+import org.springframework.util.Assert
+
+class OutputDataTests {
+
+    @Test
+    fun `createdAt is string`() {
+        val outputData = OutputData("John", "Doe", LocalDateTime.now(), UUID.randomUUID())
+        Assert.isInstanceOf(String::class.java, outputData.createdAt)
+    }
+
+    @Test
+    fun `id is string`() {
+        val outputData = OutputData("John", "Doe", LocalDateTime.now(), UUID.randomUUID())
+        Assert.isInstanceOf(String::class.java, outputData.id)
+    }
+}
