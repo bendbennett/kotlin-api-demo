@@ -11,10 +11,12 @@ with [Spring Boot](https://spring.io/projects/spring-boot).
 |-------------------|----------------------------------------------------------------|
 | [v0.1.0](#v0.1.0) | Basic HTTP and gRPC server exposing hello world endpoints.     |
 | [v0.2.0](#v0.2.0) | Adds HTTP and gRPC endpoints to create users stored in-memory. |
+| [v0.3.0](#v0.3.0) | Stores created users in-memory or in PostgreSQL.               |
+
 
 ### Set-up
 
-To run the API you'll need to have [java](https://www.oracle.com/uk/java/technologies/downloads/) and
+To run the API you'll need to have [java](https://www.oracle.com/uk/java/technologies/downloads/)
 installed.
 
 ### Gradle
@@ -36,7 +38,44 @@ supports both HTTP and [gRPC](https://support.insomnia.rest/article/188-grpc#ove
 Alternatively, requests can be issued using cURL and
 [gRPCurl](https://github.com/fullstorydev/grpcurl).
 
-## v0.2.0
+## <a name="v0.3.0"></a>v0.3.0
+
+Stores created users either in-memory or in PostgreSQL.
+
+The same cURL and gRPCurl requests as described for [v0.2.0](#v0.2.0) can be used.
+
+### PostgreSQL
+
+To use [PostgreSQL](https://www.postgresql.org/) storage you'll need to have 
+[Docker](https://docs.docker.com/engine/install/) installed.
+
+Edit `application.yml` and ensure that `profiles.active` is set to 
+`postgresql`.
+
+```yml
+spring:
+  profiles.active: postgresql
+```
+
+Then run the following command:
+
+```shell
+./gradlew composeUp
+```
+
+Running the following will terminate and clean-up the PostgreSQL docker 
+container:
+
+```shell
+./gradlew composeDown
+```
+
+### H2
+
+To use in-memory storage ([H2](https://www.h2database.com/html/main.html)),
+edit `application.yml` and ensure that `profiles.active` is set to `h2`.
+
+## <a name="v0.2.0"></a>v0.2.0
 
 Adding HTTP and gRPC endpoints for user creation.
 

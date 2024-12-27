@@ -10,17 +10,19 @@ val grpcKotlinVersion by extra("1.4.1")
 val springVersion by extra("3.4.0")
 
 plugins {
-    id("org.springframework.boot") version "3.4.0"
-    id("io.spring.dependency-management") version "1.1.6"
+    id("com.avast.gradle.docker-compose") version "0.17.12"
     id("com.google.protobuf") version "0.9.4"
+    id("io.spring.dependency-management") version "1.1.6"
+    id("org.flywaydb.flyway") version "11.1.0"
+    id("org.springframework.boot") version "3.4.0"
     kotlin("jvm") version "2.1.0"
-    kotlin("plugin.spring") version "2.1.0"
-    kotlin("plugin.jpa") version "2.1.0"
     kotlin("plugin.allopen") version "2.1.0"
+    kotlin("plugin.jpa") version "2.1.0"
+    kotlin("plugin.spring") version "2.1.0"
 }
 
 group = "net.synaptology"
-version = "0.2.0"
+version = "0.3.0"
 
 java {
     toolchain {
@@ -51,6 +53,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("com.h2database:h2")
+    runtimeOnly("org.postgresql:postgresql")
+    implementation("org.flywaydb:flyway-core")
+    implementation("org.flywaydb:flyway-database-postgresql")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "mockito-core")
@@ -137,4 +142,8 @@ allOpen {
     annotation("jakarta.persistence.Entity")
     annotation("jakarta.persistence.Embeddable")
     annotation("jakarta.persistence.MappedSuperclass")
+}
+
+dockerCompose {
+    useComposeFiles.add("docker/dev/docker-compose.yml")
 }

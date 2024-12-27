@@ -1,0 +1,13 @@
+services:
+  kotlin-api-demo-db:
+    container_name: kotlin-api-demo-db
+    image: "postgres:17.2"
+    build:
+      context: ../../
+      dockerfile: docker/postgres/Dockerfile
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=kotlin-api-demo

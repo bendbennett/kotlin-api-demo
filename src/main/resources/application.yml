@@ -1,0 +1,14 @@
+grpc:
+  server:
+    port: '8082'
+spring:
+  profiles.active: postgresql # h2
+  application:
+    name: kotlin_api_demo
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  jpa:
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+        globally_quoted_identifiers_skip_column_definitions: true
