@@ -62,7 +62,7 @@ dependencies {
     }
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("io.grpc:grpc-testing:$grpcVersion")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("org.junit.jupiter:junit-jupiter-engine")
     // In order to be able to run jupiter (junit-5) and junit-4 tests:
