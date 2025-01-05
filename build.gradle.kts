@@ -68,7 +68,7 @@ dependencies {
     // In order to be able to run jupiter (junit-5) and junit-4 tests:
     // https://www.baeldung.com/junit-5-gradle#enabling-support-for-old-versions
     testCompileOnly("junit:junit:4.13.2")
-    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.11.3")
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.11.4")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
 }
 
