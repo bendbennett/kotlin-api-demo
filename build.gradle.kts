@@ -1,20 +1,15 @@
 import com.google.protobuf.gradle.id
 import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
-import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
-val protobufVersion by extra("4.29.1")
-val grpcVersion by extra("1.68.2")
-val grpcKotlinVersion by extra("1.4.1")
-val springVersion by extra("3.4.0")
 
 plugins {
     id("com.avast.gradle.docker-compose") version "0.17.12"
     id("com.google.protobuf") version "0.9.4"
-    id("io.spring.dependency-management") version "1.1.6"
-    id("org.flywaydb.flyway") version "11.1.0"
-    id("org.springframework.boot") version "3.4.0"
+    id("io.spring.dependency-management") version "1.1.7"
+    id("org.flywaydb.flyway") version "11.2.0"
+    id("org.springframework.boot") version "3.4.1"
     kotlin("jvm") version "2.1.0"
     kotlin("plugin.allopen") version "2.1.0"
     kotlin("plugin.jpa") version "2.1.0"
@@ -22,7 +17,7 @@ plugins {
 }
 
 group = "net.synaptology"
-version = "0.3.0"
+version = "0.4.0"
 
 java {
     toolchain {
@@ -36,17 +31,17 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-parent:$springVersion")
-    implementation("org.springframework.boot:spring-boot-maven-plugin:$springVersion")
+    implementation("org.springframework.boot:spring-boot-starter-parent:3.4.1")
+    implementation("org.springframework.boot:spring-boot-maven-plugin:3.4.1")
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     implementation("net.devh:grpc-spring-boot-starter:3.1.0.RELEASE")
-    implementation("com.google.protobuf:protobuf-java:$protobufVersion")
+    implementation("com.google.protobuf:protobuf-java:4.29.3")
     implementation("io.grpc:grpc-protobuf")
     implementation("io.grpc:grpc-stub")
     implementation("io.grpc:grpc-netty")
-    implementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
+    implementation("io.grpc:grpc-kotlin-stub:1.4.1")
     implementation("jakarta.annotation:jakarta.annotation-api:3.0.0")
     implementation("io.github.oshai:kotlin-logging-jvm:7.0.3")
     // Data persistence
@@ -61,15 +56,14 @@ dependencies {
         exclude(module = "mockito-core")
     }
     testImplementation("org.jetbrains.kotlin:kotlin-test")
-    testImplementation("io.grpc:grpc-testing:$grpcVersion")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+    testImplementation("io.grpc:grpc-testing:1.70.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("org.junit.jupiter:junit-jupiter-engine")
-    // In order to be able to run jupiter (junit-5) and junit-4 tests:
-    // https://www.baeldung.com/junit-5-gradle#enabling-support-for-old-versions
-    testCompileOnly("junit:junit:4.13.2")
-    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.11.3")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
+
+    testImplementation("org.testcontainers:testcontainers:1.20.4")
+    testImplementation("org.testcontainers:junit-jupiter:1.20.4")
 }
 
 kotlin {
@@ -95,20 +89,20 @@ tasks.withType<Test> {
 
 configure<DependencyManagementExtension> {
     imports {
-        mavenBom("io.grpc:grpc-bom:$grpcVersion")
+        mavenBom("io.grpc:grpc-bom:1.70.0")
     }
 }
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:${protobufVersion}"
+        artifact = "com.google.protobuf:protoc:4.29.3"
     }
     plugins {
         id("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+            artifact = "io.grpc:protoc-gen-grpc-java:1.70.0"
         }
         id("grpckt") {
-            artifact = "io.grpc:protoc-gen-grpc-kotlin:${grpcKotlinVersion}:jdk8@jar"
+            artifact = "io.grpc:protoc-gen-grpc-kotlin:1.4.1:jdk8@jar"
         }
     }
 
@@ -126,8 +120,8 @@ protobuf {
 val byteBuddyAgent = configurations.create("byteBuddyAgent")
 
 dependencies {
-    testImplementation("net.bytebuddy:byte-buddy-agent:1.15.10")
-    byteBuddyAgent("net.bytebuddy:byte-buddy-agent:1.15.10") { isTransitive = false }
+    testImplementation("net.bytebuddy:byte-buddy-agent:1.16.1")
+    byteBuddyAgent("net.bytebuddy:byte-buddy-agent:1.16.1") { isTransitive = false }
 }
 
 tasks {

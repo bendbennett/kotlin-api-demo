@@ -12,22 +12,24 @@ with [Spring Boot](https://spring.io/projects/spring-boot).
 | [v0.1.0](#v0.1.0) | Basic HTTP and gRPC server exposing hello world endpoints.     |
 | [v0.2.0](#v0.2.0) | Adds HTTP and gRPC endpoints to create users stored in-memory. |
 | [v0.3.0](#v0.3.0) | Stores created users in-memory or in PostgreSQL.               |
-
+| [v0.4.0](#v0.4.0) | Adds HTTP and gRPC endpoints to retrieve/read users.           |
 
 ### Set-up
 
-To run the API you'll need to have [java](https://www.oracle.com/uk/java/technologies/downloads/)
-installed.
+To run the API you'll need to have [Java](https://www.oracle.com/uk/java/technologies/downloads/)
+and [Docker](https://docs.docker.com/desktop/) installed.
 
 ### Gradle
 
 The [Gradle](https://gradle.org/) build tool can be used for building, running and testing the API.
 
 * `./gradlew bootRun` runs the application without first building an archive.
-  * Refer to [Running your Application with Gradle](https://docs.spring.io/spring-boot/gradle-plugin/running.html).
-* `./gradle build` executes the build. 
-  * The generated .jar can then be run directly using `java -jar build/libs/kotlin_api_demo-<VERSION>.jar` 
-* `./gradle test` runs the tests.
+    * Refer to [Running your Application with Gradle](https://docs.spring.io/spring-boot/gradle-plugin/running.html).
+* `./gradlew build` executes the build.
+    * The generated .jar can then be run directly using `java -jar build/libs/kotlin_api_demo-<VERSION>.jar`
+* `./gradlew test` runs the tests.
+* `./gradlew composeUp` and `./gradlew composeDown` will bring-up and
+  take-down the Docker containers that are required for running the API.
 
 ### Manual Testing
 
@@ -38,6 +40,57 @@ supports both HTTP and [gRPC](https://support.insomnia.rest/article/188-grpc#ove
 Alternatively, requests can be issued using cURL and
 [gRPCurl](https://github.com/fullstorydev/grpcurl).
 
+## <a name="v0.4.0"></a>v0.4.0
+
+Adds HTTP and gRPC endpoints for retrieving users.
+
+The same cURL and gRPCurl requests as described for [v0.2.0](#v0.2.0) can be
+used to create users.
+
+### HTTP
+
+```shell
+curl -i --request GET \
+--url http://localhost:8080/user
+```
+
+```shell
+HTTP/1.1 200
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 23 Jan 2025 11:29:16 GMT
+
+[
+  {
+    "first_name":"john",
+    "last_name":"smith",
+    "created_at":"2025-01-20T14:07:54.726838",
+    "id":"33e19313-df8c-40fb-b217-11ec0ec5a9d4"
+  }
+]
+```
+
+### gRPC
+
+```shell
+grpcurl \
+-plaintext \
+localhost:8082 net.synaptology.kotlin_api_demo.UserReadService.Read
+```
+
+```shell
+{
+  "users": [
+    {
+      "id": "33e19313-df8c-40fb-b217-11ec0ec5a9d4",
+      "first_name": "john",
+      "last_name": "smith",
+      "created_at": "2025-01-20T14:07:54.726838"
+    }
+  ]
+}
+```
+
 ## <a name="v0.3.0"></a>v0.3.0
 
 Stores created users either in-memory or in PostgreSQL.
@@ -46,10 +99,10 @@ The same cURL and gRPCurl requests as described for [v0.2.0](#v0.2.0) can be use
 
 ### PostgreSQL
 
-To use [PostgreSQL](https://www.postgresql.org/) storage you'll need to have 
+To use [PostgreSQL](https://www.postgresql.org/) storage you'll need to have
 [Docker](https://docs.docker.com/engine/install/) installed.
 
-Edit `application.yml` and ensure that `profiles.active` is set to 
+Edit `application.yml` and ensure that `profiles.active` is set to
 `postgresql`.
 
 ```yml
@@ -63,7 +116,7 @@ Then run the following command:
 ./gradlew composeUp
 ```
 
-Running the following will terminate and clean-up the PostgreSQL docker 
+Running the following will terminate and clean-up the PostgreSQL docker
 container:
 
 ```shell
@@ -114,7 +167,7 @@ Users are stored in-memory.
     grpcurl \
     -plaintext \
     -d '{"first_name": "john", "last_name": "smith"}' \
-    localhost:8082 net.synaptology.kotlin_api_demo.UserService.Create
+    localhost:8082 net.synaptology.kotlin_api_demo.UserCreateService.Create
 
 #### Response
 

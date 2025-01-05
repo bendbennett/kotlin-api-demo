@@ -19,6 +19,23 @@ message UserCreateResponse {
   string created_at = 4;
 }
 
-service UserService {
+service UserCreateService {
   rpc Create(UserCreateRequest) returns (UserCreateResponse) {}
+}
+
+message UserReadRequest {}
+
+message UserReadResponse {
+  string id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string created_at = 4;
+}
+
+message UsersReadResponse {
+  repeated UserReadResponse users = 1;
+}
+
+service UserReadService {
+  rpc Read(UserReadRequest) returns (UsersReadResponse) {}
 }

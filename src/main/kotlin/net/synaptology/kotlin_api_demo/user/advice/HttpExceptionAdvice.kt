@@ -1,4 +1,4 @@
-package net.synaptology.kotlin_api_demo.user.create
+package net.synaptology.kotlin_api_demo.user.advice
 
 import jakarta.servlet.http.HttpServletRequest
 import java.time.LocalDateTime

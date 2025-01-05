@@ -12,16 +12,16 @@ import org.junit.jupiter.api.Test
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 
 @SpringJUnitConfig
-class ServiceTests {
+class UserCreateServiceTests {
 
     @MockkBean
     lateinit var repository: UserRepository
 
     @Test
     fun create() {
-        val service = Service(repository)
+        val service = UserCreateService(repository)
 
-        val inputData = InputData("John", "Doe")
+        val inputData = UserCreateInputData("John", "Doe")
 
         val userEntity = UserEntity("John", "Doe", LocalDateTime.now(), UUID.randomUUID())
 

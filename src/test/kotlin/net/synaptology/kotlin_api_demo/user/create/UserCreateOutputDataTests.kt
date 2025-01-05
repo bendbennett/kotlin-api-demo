@@ -5,17 +5,17 @@ import java.util.UUID
 import org.junit.jupiter.api.Test
 import org.springframework.util.Assert
 
-class OutputDataTests {
+class UserCreateOutputDataTests {
 
     @Test
     fun `createdAt is string`() {
-        val outputData = OutputData("John", "Doe", LocalDateTime.now(), UUID.randomUUID())
+        val outputData = UserCreateOutputData("John", "Doe", LocalDateTime.now(), UUID.randomUUID())
         Assert.isInstanceOf(String::class.java, outputData.createdAt)
     }
 
     @Test
     fun `id is string`() {
-        val outputData = OutputData("John", "Doe", LocalDateTime.now(), UUID.randomUUID())
+        val outputData = UserCreateOutputData("John", "Doe", LocalDateTime.now(), UUID.randomUUID())
         Assert.isInstanceOf(String::class.java, outputData.id)
     }
 }

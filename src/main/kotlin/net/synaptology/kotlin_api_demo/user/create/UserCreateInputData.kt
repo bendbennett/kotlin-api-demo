@@ -1,6 +1,6 @@
 package net.synaptology.kotlin_api_demo.user.create
 
-data class InputData(
+data class UserCreateInputData(
     val firstName: String,
     val lastName: String
 ) {

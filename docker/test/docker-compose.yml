@@ -1,0 +1,10 @@
+services:
+  kotlin-api-demo-db-test:
+    image: "postgres:17.2"
+    build:
+      context: ../../
+      dockerfile: docker/postgres/Dockerfile
+    environment:
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_DB=kotlin-api-demo

@@ -5,15 +5,15 @@ import net.synaptology.kotlin_api_demo.repositories.user.UserRepository
 import net.synaptology.kotlin_api_demo.user.User
 import org.springframework.stereotype.Service
 
-interface IService {
-    fun create(inputData: InputData): User
+interface IUserCreateService {
+    fun create(inputData: UserCreateInputData): User
 }
 
 @Service
-class Service(
+class UserCreateService(
     private val repository: UserRepository
-) : IService {
-    override fun create(inputData: InputData): User {
+) : IUserCreateService {
+    override fun create(inputData: UserCreateInputData): User {
         var userEntity = UserEntity(inputData.firstName, inputData.lastName)
 
         userEntity = repository.save(userEntity)

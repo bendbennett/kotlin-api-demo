@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 class UserEntity(
     var firstName: String,
     var lastName: String,

@@ -1,4 +1,4 @@
-package net.synaptology.kotlin_api_demo.user.create
+package net.synaptology.kotlin_api_demo.user.advice
 
 import io.grpc.Status
 import net.devh.boot.grpc.server.advice.GrpcAdvice

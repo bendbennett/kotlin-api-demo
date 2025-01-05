@@ -13,14 +13,14 @@ import org.junit.jupiter.api.assertThrows
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 
 @SpringJUnitConfig
-class GrpcControllerUnitTests {
+class UserCreateGrpcControllerUnitTests {
 
     @MockkBean
-    lateinit var service: IService
+    lateinit var service: IUserCreateService
 
     @Test
     fun create() = runBlocking {
-        val grpcController = GrpcController(service)
+        val grpcController = UserCreateGrpcController(service)
 
         val userCreateRequest = UserCreateRequest
             .newBuilder()
@@ -40,7 +40,7 @@ class GrpcControllerUnitTests {
 
     @Test
     fun `invalid first name`() = runBlocking {
-        val grpcController = GrpcController(service)
+        val grpcController = UserCreateGrpcController(service)
 
         val userCreateRequest = UserCreateRequest
             .newBuilder()
@@ -56,7 +56,7 @@ class GrpcControllerUnitTests {
     fun `service throws exception`(): Unit = runBlocking {
         every { service.create(any()) } throws Exception("test exception")
 
-        val grpcController = GrpcController(service)
+        val grpcController = UserCreateGrpcController(service)
 
         val userCreateRequest = UserCreateRequest
             .newBuilder()

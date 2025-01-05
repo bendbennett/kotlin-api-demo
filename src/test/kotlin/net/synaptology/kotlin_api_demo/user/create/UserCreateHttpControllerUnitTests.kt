@@ -16,11 +16,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-@WebMvcTest
-class HttpControllerUnitTests(@Autowired val mockMvc: MockMvc) {
+@WebMvcTest(controllers = [UserCreateHttpController::class])
+class UserCreateHttpControllerUnitTests(@Autowired val mockMvc: MockMvc) {
 
     @MockkBean
-    lateinit var service: IService
+    lateinit var service: IUserCreateService
 
     @Test
     fun create() {

@@ -8,19 +8,15 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class HttpController(val service: IService) {
-
-    @RequestMapping(path = ["/"], method = [RequestMethod.GET])
-    fun statusOk() {
-    }
+class UserCreateHttpController(val service: IUserCreateService) {
 
     @RequestMapping(value = ["/user"], method = [RequestMethod.POST])
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(@RequestBody inputData: InputData): OutputData {
+    fun create(@RequestBody inputData: UserCreateInputData): UserCreateOutputData {
 
         val user = service.create(inputData)
 
-        return OutputData(
+        return UserCreateOutputData(
             user.firstName,
             user.lastName,
             user.createdAt,
