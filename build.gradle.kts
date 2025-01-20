@@ -117,8 +117,8 @@ protobuf {
 val byteBuddyAgent = configurations.create("byteBuddyAgent")
 
 dependencies {
-    testImplementation("net.bytebuddy:byte-buddy-agent:1.15.11")
-    byteBuddyAgent("net.bytebuddy:byte-buddy-agent:1.15.11") { isTransitive = false }
+    testImplementation("net.bytebuddy:byte-buddy-agent:1.16.1")
+    byteBuddyAgent("net.bytebuddy:byte-buddy-agent:1.16.1") { isTransitive = false }
 }
 
 tasks {
