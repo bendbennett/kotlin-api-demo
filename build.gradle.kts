@@ -56,7 +56,7 @@ dependencies {
         exclude(module = "mockito-core")
     }
     testImplementation("org.jetbrains.kotlin:kotlin-test")
-    testImplementation("io.grpc:grpc-testing:1.69.1")
+    testImplementation("io.grpc:grpc-testing:1.70.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("org.junit.jupiter:junit-jupiter-engine")
