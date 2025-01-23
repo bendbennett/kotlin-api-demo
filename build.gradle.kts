@@ -3,21 +3,23 @@ import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+import org.springframework.boot.gradle.tasks.run.BootRun
 
 plugins {
     id("com.avast.gradle.docker-compose") version "0.17.12"
     id("com.google.protobuf") version "0.9.4"
     id("io.spring.dependency-management") version "1.1.7"
-    id("org.flywaydb.flyway") version "11.2.0"
-    id("org.springframework.boot") version "3.4.1"
-    kotlin("jvm") version "2.1.0"
-    kotlin("plugin.allopen") version "2.1.0"
-    kotlin("plugin.jpa") version "2.1.0"
-    kotlin("plugin.spring") version "2.1.0"
+    id("org.flywaydb.flyway") version "11.3.1"
+    id("org.springframework.boot") version "3.4.2"
+    kotlin("jvm") version "2.1.10"
+    kotlin("plugin.allopen") version "2.1.10"
+    kotlin("plugin.jpa") version "2.1.10"
+    kotlin("plugin.spring") version "2.1.10"
 }
 
 group = "net.synaptology"
-version = "0.4.0"
+version = "0.5.0"
 
 java {
     toolchain {
@@ -30,9 +32,11 @@ repositories {
     mavenCentral()
 }
 
+val agent = configurations.create("agent")
+
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-parent:3.4.1")
-    implementation("org.springframework.boot:spring-boot-maven-plugin:3.4.1")
+    implementation("org.springframework.boot:spring-boot-starter-parent:3.4.2")
+    implementation("org.springframework.boot:spring-boot-maven-plugin:3.4.2")
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
@@ -43,7 +47,7 @@ dependencies {
     implementation("io.grpc:grpc-netty")
     implementation("io.grpc:grpc-kotlin-stub:1.4.1")
     implementation("jakarta.annotation:jakarta.annotation-api:3.0.0")
-    implementation("io.github.oshai:kotlin-logging-jvm:7.0.3")
+    implementation("io.github.oshai:kotlin-logging-jvm:7.0.4")
     // Data persistence
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -51,6 +55,9 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-database-postgresql")
+    // OTEL
+    implementation("io.opentelemetry:opentelemetry-api")
+    agent("io.opentelemetry.javaagent:opentelemetry-javaagent:2.12.0")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "mockito-core")
@@ -120,8 +127,8 @@ protobuf {
 val byteBuddyAgent = configurations.create("byteBuddyAgent")
 
 dependencies {
-    testImplementation("net.bytebuddy:byte-buddy-agent:1.16.1")
-    byteBuddyAgent("net.bytebuddy:byte-buddy-agent:1.16.1") { isTransitive = false }
+    testImplementation("net.bytebuddy:byte-buddy-agent:1.17.0")
+    byteBuddyAgent("net.bytebuddy:byte-buddy-agent:1.17.0") { isTransitive = false }
 }
 
 tasks {
@@ -140,4 +147,31 @@ allOpen {
 
 dockerCompose {
     useComposeFiles.add("docker/dev/docker-compose.yml")
+    tcpPortsToIgnoreWhenWaiting.addAll(8888, 13133)
+}
+
+val copyAgent = tasks.register<Copy>("copyAgent") {
+    from(agent.singleFile)
+    into(layout.buildDirectory.dir("agent"))
+    rename("opentelemetry-javaagent-.*\\.jar", "opentelemetry-javaagent.jar")
+}
+
+tasks.named<BootJar>("bootJar") {
+    dependsOn(copyAgent)
+}
+
+tasks.named<BootRun>("bootRun") {
+    dependsOn(copyAgent)
+
+    environment(
+        mutableMapOf(
+            "OTEL_METRIC_EXPORT_INTERVAL" to 5000,
+            "OTEL_METRIC_EXPORT_TIMEOUT" to 10000,
+            "OTEL_TRACES_EXPORTER" to "none"
+        )
+    )
+
+    jvmArgs(
+        "-javaagent:${project.projectDir}/build/agent/opentelemetry-javaagent.jar",
+    )
 }
