@@ -1,7 +1,7 @@
 services:
   kotlin-api-demo-db:
     container_name: kotlin-api-demo-db
-    image: "postgres:17.2"
+    image: "postgres:17.4"
     build:
       context: ../../
       dockerfile: docker/postgres/Dockerfile
@@ -14,7 +14,7 @@ services:
 
   kotlin-api-demo-otel-collector:
     container_name: kotlin-api-demo-otel-collector
-    image: otel/opentelemetry-collector:0.118.0
+    image: otel/opentelemetry-collector:0.121.0
     build:
       context: ../../
       dockerfile: docker/otel/Dockerfile
@@ -29,10 +29,12 @@ services:
       - "8889:8889"   # Prometheus exporter metrics
       - "13133:13133" # health_check extension
       - "55679:55679" # zpages extension
+    depends_on:
+      - kotlin-api-demo-jaeger
 
   kotlin-api-demo-prometheus:
     container_name: kotlin-api-demo-prometheus
-    image: prom/prometheus:v3.1.0
+    image: prom/prometheus:v3.2.1
     build:
       context: ../../
       dockerfile: docker/prometheus/Dockerfile
@@ -42,9 +44,21 @@ services:
     ports:
       - "9090:9090"
 
+  kotlin-api-demo-jaeger:
+    container_name: kotlin-api-demo-jaeger
+    image: jaegertracing/all-in-one:1.65.0
+    build:
+      context: ../../
+      dockerfile: docker/jaeger/Dockerfile
+    restart: always
+    ports:
+      - "16686:16686"
+      - "14268"
+      - "14250"
+
   kotlin-api-demo-grafana:
     container_name: kotlin-api-demo-grafana
-    image: grafana/grafana:11.5.0
+    image: grafana/grafana:11.5.2
     build:
       context: ../../
       dockerfile: docker/grafana/Dockerfile

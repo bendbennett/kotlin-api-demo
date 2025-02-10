@@ -15,8 +15,10 @@ export const options = {
 };
 
 export default function () {
-    let data = { first_name: "john", last_name: "smith" }
+    const url = `http://${__ENV.HOST}:8080/user`
+    const payload = JSON.stringify({ first_name: "john", last_name: "smith" })
+    const params = { headers: { 'Content-Type': 'application/json' } }
 
-    let res = http.post(`http://${__ENV.HOST}:3000/user`, JSON.stringify(data));
+    let res = http.post(url, payload, params);
     check(res, { 'status was 201': (r) => r.status == 201 });
 }

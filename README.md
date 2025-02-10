@@ -14,6 +14,7 @@ with [Spring Boot](https://spring.io/projects/spring-boot).
 | [v0.3.0](#v0.3.0) | Stores created users in-memory or in PostgreSQL.                                                                  |
 | [v0.4.0](#v0.4.0) | Adds HTTP and gRPC endpoints to retrieve/read users.                                                              |
 | [v0.5.0](#v0.5.0) | Adds telemetry for HTTP and gRPC requests, and contrasts performance when using PostgreSQL and in-memory storage. |
+| [v0.6.0](#v0.6.0) | Adds tracing with Jaeger.                                                                                         |
 
 ### Set-up
 
@@ -40,6 +41,67 @@ supports both HTTP and [gRPC](https://support.insomnia.rest/article/188-grpc#ove
 
 Alternatively, requests can be issued using cURL and
 [gRPCurl](https://github.com/fullstorydev/grpcurl).
+
+## <a name="v0.6.0"></a>v0.6.0
+
+Adds tracing using [Jaeger](https://www.jaegertracing.io/).
+
+### Set-up
+
+```shell
+./gradlew composeUp
+```
+
+```shell
+./gradlew bootRun
+```
+
+_Jaeger_ is accessible at [http://localhost:16686](http://localhost:16686).
+
+### Tracing
+
+#### Overview
+
+Using the cURL and/or gRPCurl requests for _user_ endpoints (see
+[v0.2.0](#v0.2.0), and [v0.4.0](#v0.4.0)) will generate traces.
+
+The following illustrates traces generated from:
+
+* HTTP request to GET /user endpoint
+* HTTP requests to POST /user endpoint
+
+![jaeger_user_get_http_grpc](img/jaeger_user_http_get_post.png)
+
+#### Individual traces
+
+Examining an HTTP request reveals further information about where time is
+spent.
+
+![jaeger_user_post_http_detail.png](img/jaeger_user_post_http_detail.png)
+
+### Logging and Tracing
+
+#### Failures
+
+Request failures were induced by killing the PostgreSQL container.
+
+The error messages in the log are also captured within traces.
+
+##### Error - Connection is not available
+
+```
+2025-02-22T17:55:38.310Z  WARN 92425 --- [kotlin_api_demo] [nio-8080-exec-5] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 08001
+2025-02-22T17:55:38.310Z ERROR 92425 --- [kotlin_api_demo] [nio-8080-exec-5] o.h.engine.jdbc.spi.SqlExceptionHelper   : HikariPool-1 - Connection is not available, request timed out after 30002ms (total=0, active=0, idle=0, waiting=0)
+2025-02-22T17:55:38.310Z ERROR 92425 --- [kotlin_api_demo] [nio-8080-exec-5] o.h.engine.jdbc.spi.SqlExceptionHelper   : Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+2025-02-22T17:55:38.311Z ERROR 92425 --- [kotlin_api_demo] [nio-8080-exec-5] n.s.k.user.advice.GrpcExceptionAdvice    : Could not open JPA EntityManager for transaction
+
+org.springframework.transaction.CannotCreateTransactionException: Could not open JPA EntityManager for transaction
+at org.springframework.orm.jpa.JpaTransactionManager.doBegin(JpaTransactionManager.java:466) ~[spring-orm-6.2.2.jar:6.2.2]
+at org.springframework.transaction.support.AbstractPlatformTransactionManager.startTransaction(AbstractPlatformTransactionManager.java:532) ~[spring-tx-6.2.2.jar:6.2.2]
+...............
+```
+
+![jaeger_user_post_db_connection_error.png](img/jaeger_user_post_db_connection_error.png)
 
 ## <a name="v0.5.0"></a>v0.5.0
 
