@@ -70,7 +70,7 @@ dependencies {
     testImplementation("com.ninja-squad:springmockk:4.0.2")
 
     testImplementation("org.testcontainers:testcontainers:1.20.5")
-    testImplementation("org.testcontainers:junit-jupiter:1.20.5")
+    testImplementation("org.testcontainers:junit-jupiter:1.20.6")
 }
 
 kotlin {
