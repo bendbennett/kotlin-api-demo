@@ -14,7 +14,7 @@ services:
 
   kotlin-api-demo-otel-collector:
     container_name: kotlin-api-demo-otel-collector
-    image: otel/opentelemetry-collector:0.121.0
+    image: otel/opentelemetry-collector:0.123.0
     build:
       context: ../../
       dockerfile: docker/otel/Dockerfile
@@ -34,7 +34,7 @@ services:
 
   kotlin-api-demo-prometheus:
     container_name: kotlin-api-demo-prometheus
-    image: prom/prometheus:v3.2.1
+    image: prom/prometheus:v3.3.0
     build:
       context: ../../
       dockerfile: docker/prometheus/Dockerfile
@@ -46,7 +46,7 @@ services:
 
   kotlin-api-demo-jaeger:
     container_name: kotlin-api-demo-jaeger
-    image: jaegertracing/all-in-one:1.65.0
+    image: jaegertracing/all-in-one:1.68.0
     build:
       context: ../../
       dockerfile: docker/jaeger/Dockerfile
@@ -58,7 +58,7 @@ services:
 
   kotlin-api-demo-grafana:
     container_name: kotlin-api-demo-grafana
-    image: grafana/grafana:11.5.2
+    image: grafana/grafana:11.6.0
     build:
       context: ../../
       dockerfile: docker/grafana/Dockerfile
