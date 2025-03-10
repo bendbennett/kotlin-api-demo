@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @ControllerAdvice(annotations = [RestController::class])
 class HttpExceptionAdvice {
-    val logger: Logger = LoggerFactory.getLogger(GrpcExceptionAdvice::class.java)
+    val logger: Logger = LoggerFactory.getLogger(HttpExceptionAdvice::class.java)
 
     @ExceptionHandler
     fun handleHttpMessageNotReadableException(
