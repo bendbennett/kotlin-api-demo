@@ -47,7 +47,7 @@ dependencies {
     implementation("io.grpc:grpc-netty")
     implementation("io.grpc:grpc-kotlin-stub:1.4.1")
     implementation("jakarta.annotation:jakarta.annotation-api:3.0.0")
-    implementation("io.github.oshai:kotlin-logging-jvm:7.0.4")
+    implementation("io.github.oshai:kotlin-logging-jvm:7.0.5")
     // Data persistence
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -63,13 +63,13 @@ dependencies {
         exclude(module = "mockito-core")
     }
     testImplementation("org.jetbrains.kotlin:kotlin-test")
-    testImplementation("io.grpc:grpc-testing:1.70.0")
+    testImplementation("io.grpc:grpc-testing:1.71.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("org.junit.jupiter:junit-jupiter-engine")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
 
-    testImplementation("org.testcontainers:testcontainers:1.20.5")
+    testImplementation("org.testcontainers:testcontainers:1.20.6")
     testImplementation("org.testcontainers:junit-jupiter:1.20.6")
 }
 
@@ -96,7 +96,7 @@ tasks.withType<Test> {
 
 configure<DependencyManagementExtension> {
     imports {
-        mavenBom("io.grpc:grpc-bom:1.70.0")
+        mavenBom("io.grpc:grpc-bom:1.71.0")
     }
 }
 
@@ -106,7 +106,7 @@ protobuf {
     }
     plugins {
         id("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:1.70.0"
+            artifact = "io.grpc:protoc-gen-grpc-java:1.71.0"
         }
         id("grpckt") {
             artifact = "io.grpc:protoc-gen-grpc-kotlin:1.4.1:jdk8@jar"
