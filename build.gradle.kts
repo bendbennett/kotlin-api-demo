@@ -96,7 +96,7 @@ tasks.withType<Test> {
 
 configure<DependencyManagementExtension> {
     imports {
-        mavenBom("io.grpc:grpc-bom:1.70.0")
+        mavenBom("io.grpc:grpc-bom:1.71.0")
     }
 }
 
