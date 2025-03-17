@@ -57,7 +57,7 @@ dependencies {
     implementation("org.flywaydb:flyway-database-postgresql")
     // OTEL
     implementation("io.opentelemetry:opentelemetry-api")
-    agent("io.opentelemetry.javaagent:opentelemetry-javaagent:2.13.3")
+    agent("io.opentelemetry.javaagent:opentelemetry-javaagent:2.14.0")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "mockito-core")
