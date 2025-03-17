@@ -102,7 +102,7 @@ configure<DependencyManagementExtension> {
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:4.30.0"
+        artifact = "com.google.protobuf:protoc:4.30.1"
     }
     plugins {
         id("grpc") {
