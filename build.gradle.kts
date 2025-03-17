@@ -41,7 +41,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     implementation("net.devh:grpc-spring-boot-starter:3.1.0.RELEASE")
-    implementation("com.google.protobuf:protobuf-java:4.30.0")
+    implementation("com.google.protobuf:protobuf-java:4.30.1")
     implementation("io.grpc:grpc-protobuf")
     implementation("io.grpc:grpc-stub")
     implementation("io.grpc:grpc-netty")
