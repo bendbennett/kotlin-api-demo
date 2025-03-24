@@ -13,7 +13,7 @@ plugins {
     id("org.flywaydb.flyway") version "11.4.0"
     id("org.springframework.boot") version "3.4.3"
     kotlin("jvm") version "2.1.10"
-    kotlin("plugin.allopen") version "2.1.10"
+    kotlin("plugin.allopen") version "2.1.20"
     kotlin("plugin.jpa") version "2.1.10"
     kotlin("plugin.spring") version "2.1.10"
 }
