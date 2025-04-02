@@ -47,7 +47,7 @@ dependencies {
     implementation("io.grpc:grpc-netty")
     implementation("io.grpc:grpc-kotlin-stub:1.4.1")
     implementation("jakarta.annotation:jakarta.annotation-api:3.0.0")
-    implementation("io.github.oshai:kotlin-logging-jvm:7.0.5")
+    implementation("io.github.oshai:kotlin-logging-jvm:7.0.6")
     // Data persistence
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
