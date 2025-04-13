@@ -8,7 +8,7 @@ import org.springframework.boot.gradle.tasks.run.BootRun
 
 plugins {
     id("com.avast.gradle.docker-compose") version "0.17.12"
-    id("com.google.protobuf") version "0.9.4"
+    id("com.google.protobuf") version "0.9.5"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.flywaydb.flyway") version "11.4.0"
     id("org.springframework.boot") version "3.4.4"
