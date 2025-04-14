@@ -10,7 +10,7 @@ plugins {
     id("com.avast.gradle.docker-compose") version "0.17.12"
     id("com.google.protobuf") version "0.9.5"
     id("io.spring.dependency-management") version "1.1.7"
-    id("org.flywaydb.flyway") version "11.4.0"
+    id("org.flywaydb.flyway") version "11.7.1"
     id("org.springframework.boot") version "3.4.4"
     kotlin("jvm") version "2.1.20"
     kotlin("plugin.allopen") version "2.1.20"
