@@ -64,7 +64,7 @@ dependencies {
     }
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("io.grpc:grpc-testing:1.71.0")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("org.junit.jupiter:junit-jupiter-engine")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
