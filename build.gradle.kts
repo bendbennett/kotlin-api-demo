@@ -45,7 +45,7 @@ dependencies {
     implementation("io.grpc:grpc-protobuf")
     implementation("io.grpc:grpc-stub")
     implementation("io.grpc:grpc-netty")
-    implementation("io.grpc:grpc-kotlin-stub:1.4.1")
+    implementation("io.grpc:grpc-kotlin-stub:1.4.3")
     implementation("jakarta.annotation:jakarta.annotation-api:3.0.0")
     implementation("io.github.oshai:kotlin-logging-jvm:7.0.7")
     // Data persistence
