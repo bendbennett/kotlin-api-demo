@@ -10,11 +10,11 @@ plugins {
     id("com.avast.gradle.docker-compose") version "0.17.12"
     id("com.google.protobuf") version "0.9.5"
     id("io.spring.dependency-management") version "1.1.7"
-    id("org.flywaydb.flyway") version "11.8.0"
-    id("org.springframework.boot") version "3.4.4"
+    id("org.flywaydb.flyway") version "11.9.1"
+    id("org.springframework.boot") version "3.4.5"
     kotlin("jvm") version "2.1.20"
     kotlin("plugin.allopen") version "2.1.20"
-    kotlin("plugin.jpa") version "2.1.20"
+    kotlin("plugin.jpa") version "2.1.21"
     kotlin("plugin.spring") version "2.1.20"
 }
 
@@ -69,7 +69,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-engine")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
 
-    testImplementation("org.testcontainers:testcontainers:1.20.6")
+    testImplementation("org.testcontainers:testcontainers:1.21.1")
     testImplementation("org.testcontainers:junit-jupiter:1.21.0")
 }
 

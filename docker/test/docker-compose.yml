@@ -1,6 +1,6 @@
 services:
   kotlin-api-demo-db-test:
-    image: "postgres:17.4"
+    image: "postgres:17.5"
     build:
       context: ../../
       dockerfile: docker/postgres/Dockerfile
