@@ -63,7 +63,7 @@ dependencies {
         exclude(module = "mockito-core")
     }
     testImplementation("org.jetbrains.kotlin:kotlin-test")
-    testImplementation("io.grpc:grpc-testing:1.72.0")
+    testImplementation("io.grpc:grpc-testing:1.73.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("org.junit.jupiter:junit-jupiter-engine")
@@ -96,7 +96,7 @@ tasks.withType<Test> {
 
 configure<DependencyManagementExtension> {
     imports {
-        mavenBom("io.grpc:grpc-bom:1.72.0")
+        mavenBom("io.grpc:grpc-bom:1.73.0")
     }
 }
 
@@ -106,7 +106,7 @@ protobuf {
     }
     plugins {
         id("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:1.72.0"
+            artifact = "io.grpc:protoc-gen-grpc-java:1.73.0"
         }
         id("grpckt") {
             artifact = "io.grpc:protoc-gen-grpc-kotlin:1.4.1:jdk8@jar"
