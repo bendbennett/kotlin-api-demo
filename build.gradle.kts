@@ -11,11 +11,11 @@ plugins {
     id("com.google.protobuf") version "0.9.5"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.flywaydb.flyway") version "11.9.1"
-    id("org.springframework.boot") version "3.4.5"
-    kotlin("jvm") version "2.1.20"
+    id("org.springframework.boot") version "3.5.3"
+    kotlin("jvm") version "2.1.21"
     kotlin("plugin.allopen") version "2.1.20"
     kotlin("plugin.jpa") version "2.1.21"
-    kotlin("plugin.spring") version "2.1.20"
+    kotlin("plugin.spring") version "2.1.21"
 }
 
 group = "net.synaptology"
@@ -63,14 +63,14 @@ dependencies {
         exclude(module = "mockito-core")
     }
     testImplementation("org.jetbrains.kotlin:kotlin-test")
-    testImplementation("io.grpc:grpc-testing:1.72.0")
+    testImplementation("io.grpc:grpc-testing:1.73.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("org.junit.jupiter:junit-jupiter-engine")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
 
     testImplementation("org.testcontainers:testcontainers:1.21.1")
-    testImplementation("org.testcontainers:junit-jupiter:1.21.0")
+    testImplementation("org.testcontainers:junit-jupiter:1.21.2")
 }
 
 kotlin {
@@ -96,7 +96,7 @@ tasks.withType<Test> {
 
 configure<DependencyManagementExtension> {
     imports {
-        mavenBom("io.grpc:grpc-bom:1.72.0")
+        mavenBom("io.grpc:grpc-bom:1.73.0")
     }
 }
 
@@ -106,7 +106,7 @@ protobuf {
     }
     plugins {
         id("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:1.72.0"
+            artifact = "io.grpc:protoc-gen-grpc-java:1.73.0"
         }
         id("grpckt") {
             artifact = "io.grpc:protoc-gen-grpc-kotlin:1.4.1:jdk8@jar"
