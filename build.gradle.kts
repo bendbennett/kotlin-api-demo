@@ -35,8 +35,8 @@ repositories {
 val agent = configurations.create("agent")
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-parent:3.4.5")
-    implementation("org.springframework.boot:spring-boot-maven-plugin:3.4.5")
+    implementation("org.springframework.boot:spring-boot-starter-parent:3.5.7")
+    implementation("org.springframework.boot:spring-boot-maven-plugin:3.5.7")
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
